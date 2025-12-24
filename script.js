@@ -138,6 +138,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ============= STATS COUNTER ANIMATION =============
+    // COMPLETELY DISABLED to preserve $500M+ formatting
+    /*
     function animateCounter(element, target, duration = 2000) {
         let current = 0;
         const increment = target / (duration / 16);
@@ -151,8 +153,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 16);
     }
+    */
 
-    // Animate stats when they come into view
+    // Animate stats when they come into view - DISABLED to preserve $500M+ formatting
+    /*
     const statsObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -173,6 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.stat, .stat-highlight, .stat-item').forEach(stat => {
         statsObserver.observe(stat);
     });
+    */
 
     // ============= MOBILE MENU STYLES =============
     const style = document.createElement('style');
