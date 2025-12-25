@@ -50,24 +50,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Don't prevent default - let Netlify handle the form submission
+            // Just do basic validation before allowing submission
 
-            // Get form data
             const formData = new FormData(contactForm);
             const data = {};
 
-            // Convert FormData to object
+            // Convert FormData to object for validation
             for (let [key, value] of formData.entries()) {
-                if (data[key]) {
-                    // Handle multiple values (like checkboxes)
-                    if (Array.isArray(data[key])) {
-                        data[key].push(value);
-                    } else {
-                        data[key] = [data[key], value];
-                    }
-                } else {
-                    data[key] = value;
-                }
+                data[key] = value;
             }
 
             // Validate required fields
@@ -75,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const missingFields = requiredFields.filter(field => !data[field] || data[field].trim() === '');
 
             if (missingFields.length > 0) {
+                e.preventDefault();
                 alert('Please fill in all required fields: ' + missingFields.join(', '));
                 return;
             }
@@ -82,31 +74,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Validate email format
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(data.email)) {
+                e.preventDefault();
                 alert('Please enter a valid email address.');
                 return;
             }
 
-            // Show loading state
+            // If validation passes, show loading state and let form submit naturally
             const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
 
-            // Simulate form submission (replace with actual endpoint)
-            setTimeout(() => {
-                // Reset form
-                contactForm.reset();
-
-                // Show success message
-                alert('Thank you for your message! We\'ll get back to you within 24 hours.');
-
-                // Reset button
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-
-                // In a real implementation, you would send the data to your backend
-                console.log('Form data:', data);
-            }, 2000);
+            // Form will now submit to Netlify automatically
         });
     }
 
